@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Total Hours Worked</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="bg-light py-4">
+    <div class="container">
+        <div class="card shadow rounded-4 p-4">
+            <h3 class="mb-4 text-center">Work Hours Calculator</h3>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Hours per Week</label>
+                    <input type="number" id="hoursPerWeek" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" id="startDate" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">End Date</label>
+                    <input type="date" id="endDate" class="form-control" />
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button id="calculateBtn" class="btn btn-primary px-4">Calculate</button>
+            </div>
+
+            <div class="alert alert-info mt-4 text-center d-none" id="resultBox"></div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('#calculateBtn').on('click', function () {
+                const hoursPerWeek = parseFloat($('#hoursPerWeek').val());
+                const start = new Date($('#startDate').val());
+                const end = new Date($('#endDate').val());
+
+                if (!hoursPerWeek || isNaN(start) || isNaN(end) || end < start) {
+                    $('#resultBox').removeClass('d-none').text('Please fill all fields correctly.');
+                    return;
+                }
+
+                // Calculate number of weeks between dates
+                const msPerWeek = 1000 * 60 * 60 * 24 * 7;
+                const diffWeeks = (end - start) / msPerWeek;
+
+                const totalHours = diffWeeks * hoursPerWeek;
+
+                $('#resultBox')
+                    .removeClass('d-none')
+                    .text(`Total Hours Worked: ${totalHours.toFixed(2)} hours`);
+            });
+        });
+    </script>
+</body>
+</html>
